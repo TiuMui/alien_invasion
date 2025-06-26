@@ -2,7 +2,7 @@ import sys
 
 import pygame
 
-from constants import DISPLAY_SIZE, WINDOW_TITLE
+from settings import Settings
 
 
 class AlienInvasion():
@@ -12,8 +12,9 @@ class AlienInvasion():
         """Инициализирует игру и создает игровые ресурсы."""
 
         pygame.init()
-        self.screen = pygame.display.set_mode(DISPLAY_SIZE)
-        pygame.display.set_caption(WINDOW_TITLE)
+        self.settings = Settings()
+        self.screen = pygame.display.set_mode(self.settings.screen_size)
+        pygame.display.set_caption(self.settings.window_title)
 
     def run_game(self):
         """Запуск основного цикла игры."""
@@ -24,6 +25,7 @@ class AlienInvasion():
                 if event.type == pygame.QUIT:
                     pygame.quit()  # Завершение работы Pygame.
                     sys.exit()  # Завершение работы программы.
+            self.screen.fill(self.settings.bg_color)
             pygame.display.flip()  # Отображение текущей прорисовки экрана.
 
 
