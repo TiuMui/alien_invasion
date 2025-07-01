@@ -3,6 +3,7 @@ import sys
 import pygame
 
 from settings import Settings
+from ship import Ship
 
 
 class AlienInvasion():
@@ -15,6 +16,7 @@ class AlienInvasion():
         self.settings = Settings()
         self.screen = pygame.display.set_mode(self.settings.screen_size)
         pygame.display.set_caption(self.settings.window_title)
+        self.ship = Ship(self)
 
     def run_game(self):
         """Запуск основного цикла игры."""
@@ -26,6 +28,7 @@ class AlienInvasion():
                     pygame.quit()  # Завершение работы Pygame.
                     sys.exit()  # Завершение работы программы.
             self.screen.fill(self.settings.bg_color)
+            self.ship.blitme()
             pygame.display.flip()  # Отображение текущей прорисовки экрана.
 
 

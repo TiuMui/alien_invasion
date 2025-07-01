@@ -1,4 +1,4 @@
 SCREEN_WIDTH = 1200
 SCREEN_HEIGTH = 800
 WINDOW_TITLE = 'Инопланетное вторжение'
-BG_COLOR = (200, 200, 200)
+BG_COLOR = (230, 230, 230)
