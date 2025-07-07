@@ -2,3 +2,4 @@ SCREEN_WIDTH = 1200
 SCREEN_HEIGTH = 800
 WINDOW_TITLE = 'Инопланетное вторжение'
 BG_COLOR = (230, 230, 230)
+SHIP_SPEED = 1.5

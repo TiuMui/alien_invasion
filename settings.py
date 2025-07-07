@@ -1,4 +1,5 @@
-from constants import BG_COLOR, SCREEN_HEIGTH, SCREEN_WIDTH, WINDOW_TITLE
+from constants import (BG_COLOR, SCREEN_HEIGTH, SCREEN_WIDTH, SHIP_SPEED,
+                       WINDOW_TITLE)
 
 
 class Settings():
@@ -15,3 +16,4 @@ class Settings():
         self.screen_size = screen_size
         self.bg_color = bg_color
         self.window_title = window_title
+        self.ship_speed = SHIP_SPEED

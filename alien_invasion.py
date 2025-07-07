@@ -34,16 +34,28 @@ class AlienInvasion():
             if event.type == pygame.QUIT:
                 pygame.quit()  # Завершение работы Pygame.
                 sys.exit()  # Завершение работы программы.
+
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
-                    self.ship.moving_right = True
-                elif event.key == pygame.K_LEFT:
-                    self.ship.moving_left = True
+                self._tracking_keydown(event)
+
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_RIGHT:
-                    self.ship.moving_right = False
-                elif event.key == pygame.K_LEFT:
-                    self.ship.moving_left = False
+                self._tracking_keyup(event)
+
+    def _tracking_keydown(self, event):
+        """Реакция на нажатие клавиш."""
+
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = True
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = True
+
+    def _tracking_keyup(self, event):
+        """Реакция на отпускание клавиш."""
+
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = False
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = False
 
     def _update_screen(self):
         """Обновляет изображение на экране и отображает его."""
