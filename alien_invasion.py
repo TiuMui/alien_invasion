@@ -13,8 +13,14 @@ class AlienInvasion():
         """Инициализирует игру и создает игровые ресурсы."""
 
         pygame.init()
+
         self.settings = Settings()
-        self.screen = pygame.display.set_mode(self.settings.screen_size)
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.settings.screen_size = (
+            self.screen.get_rect().width,
+            self.screen.get_rect().height
+        )
+
         pygame.display.set_caption(self.settings.window_title)
         self.ship = Ship(self)
 
@@ -48,6 +54,9 @@ class AlienInvasion():
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
+        elif event.key == pygame.K_q:
+            pygame.quit()
+            sys.exit()
 
     def _tracking_keyup(self, event):
         """Реакция на отпускание клавиш."""
