@@ -18,7 +18,7 @@ class Ship():
         self.moving_left = False
 
     def blitme(self):
-        """Рисует корабль в начальной позиции."""
+        """Рисует корабль в текущей позиции."""
 
         self.screen.blit(self.image, self.rect)
 
