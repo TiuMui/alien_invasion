@@ -2,6 +2,7 @@ import sys
 
 import pygame
 
+from alian import Alian
 from bullet import Bullet
 from settings import Settings
 from ship import Ship
@@ -25,6 +26,8 @@ class AlienInvasion():
         pygame.display.set_caption(self.settings.window_title)
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.alians = pygame.sprite.Group()
+        self._create_fleet()
 
     def run_game(self):
         """Запуск основного цикла игры."""
@@ -87,6 +90,12 @@ class AlienInvasion():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+    def _create_fleet(self):
+        """Создает флот пришельцев."""
+
+        alian = Alian(self)
+        self.alians.add(alian)
+
     def _update_screen(self):
         """Обновляет изображение на экране и отображает его."""
 
@@ -94,6 +103,7 @@ class AlienInvasion():
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        self.alians.draw(self.screen)
         pygame.display.flip()  # Отображение текущей прорисовки экрана.
 
 
