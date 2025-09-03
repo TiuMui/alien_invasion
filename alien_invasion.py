@@ -26,7 +26,7 @@ class AlienInvasion():
         pygame.display.set_caption(self.settings.window_title)
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
-        self.alians = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
         self._create_fleet()
 
     def run_game(self):
@@ -93,8 +93,44 @@ class AlienInvasion():
     def _create_fleet(self):
         """Создает флот пришельцев."""
 
-        alian = Alian(self)
-        self.alians.add(alian)
+        number_aliens_in_row, number_rows = self._calculate_fleet()
+
+        for row_number in range(number_rows):
+            for alian_number in range(number_aliens_in_row):
+                self._create_alien(alian_number, row_number)
+
+    def _calculate_fleet(self):
+        """Рассчитывает количество пришельцев в одном ряду
+        и количество рядов.
+        """
+
+        alien_for_calculate = Alian(self)
+        alien_width, alian_height = alien_for_calculate.rect.size
+
+        ship_height = self.ship.rect.height
+
+        available_space_x = self.settings.screen_size[0] - (2 * alien_width)
+        number_aliens_in_row = available_space_x // (2 * alien_width)
+
+        available_space_y = (self.settings.screen_size[1] -
+                             (3 * alian_height) - ship_height)
+        number_rows = available_space_y // (2 * alian_height)
+
+        return number_aliens_in_row, number_rows
+
+    def _create_alien(self, alian_number, row_number):
+        """Создает пришельца и размещает его в нужном ряду."""
+
+        alien = Alian(self)
+        alien_width, alian_height = alien.rect.size
+
+        alien.x = alien_width + 2 * alien_width * alian_number
+        alien.rect.x = alien.x
+
+        alien.y = alian_height + 2 * alian_height * row_number
+        alien.rect.y = alien.y
+
+        self.aliens.add(alien)
 
     def _update_screen(self):
         """Обновляет изображение на экране и отображает его."""
@@ -103,8 +139,8 @@ class AlienInvasion():
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
-        self.alians.draw(self.screen)
-        pygame.display.flip()  # Отображение текущей прорисовки экрана.
+        self.aliens.draw(self.screen)
+        pygame.display.flip()
 
 
 if __name__ == '__main__':
