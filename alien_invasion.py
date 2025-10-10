@@ -34,8 +34,10 @@ class AlienInvasion():
 
         while True:
             self._tracking_events()
+
             self.ship.update()
             self._update_and_delete_bullet()
+
             self._update_screen()
 
     def _tracking_events(self):
