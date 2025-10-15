@@ -38,6 +38,8 @@ class AlienInvasion():
             self.ship.update()
             self._update_and_delete_bullet()
 
+            self._update_aliens_in_fleet()
+
             self._update_screen()
 
     def _tracking_events(self):
@@ -133,6 +135,11 @@ class AlienInvasion():
         alien.rect.y = alien.y
 
         self.aliens.add(alien)
+
+    def _update_aliens_in_fleet(self):
+        """Обновляет позиции всех пришельцев во флоте."""
+
+        self.aliens.update()
 
     def _update_screen(self):
         """Обновляет изображение на экране и отображает его."""
