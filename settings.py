@@ -1,6 +1,7 @@
 from constants import (ALIEN_SPEED, BG_COLOR, BULLETS_ALLOWED, BULLET_COLOR,
-                       BULLET_HIGHT, BULLET_SPEED, SCREEN_HEIGHT, BULLET_WIDTH,
-                       SHIP_SPEED, SCREEN_WIDTH, WINDOW_TITLE)
+                       BULLET_HIGHT, BULLET_SPEED, FLEET_DOWN_SPEED,
+                       SCREEN_HEIGHT, BULLET_WIDTH, SHIP_SPEED, SCREEN_WIDTH,
+                       WINDOW_TITLE)
 
 
 class Settings():
@@ -27,3 +28,4 @@ class Settings():
         self.bullets_allowed = BULLETS_ALLOWED
 
         self.alien_speed = ALIEN_SPEED
+        self.fleet_down_speed = FLEET_DOWN_SPEED

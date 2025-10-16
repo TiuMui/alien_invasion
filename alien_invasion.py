@@ -139,7 +139,23 @@ class AlienInvasion():
     def _update_aliens_in_fleet(self):
         """Обновляет позиции всех пришельцев во флоте."""
 
+        self._check_fleet_edges()
         self.aliens.update()
+
+    def _check_fleet_edges(self):
+        """Реагирует на достижение любым пришельцем края экрана."""
+
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        """Опускает весь флот и меняет направление движения."""
+
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.fleet_down_speed
+        self.settings.alien_speed *= -1
 
     def _update_screen(self):
         """Обновляет изображение на экране и отображает его."""
