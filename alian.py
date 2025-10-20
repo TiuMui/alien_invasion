@@ -21,12 +21,12 @@ class Alian(Sprite):
 
     def check_edges(self):
         """Проверяет нахождение пришельца у края экрана."""
+
         screen_rect = self.screen.get_rect()
-        if self.rect.left <= 0 or self.rect.right >= screen_rect.right:
-            return True
+        return self.rect.left <= 0 or self.rect.right >= screen_rect.right
 
     def update(self):
-        """Смещает пришельца вправо."""
+        """Смещает пришельца."""
 
         self.x += self.settings.alien_speed
         self.rect.x = self.x

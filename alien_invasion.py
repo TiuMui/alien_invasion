@@ -4,6 +4,9 @@ import pygame
 
 from alian import Alian
 from bullet import Bullet
+from constants import (ALIEN_KILL_BY_BULLET, BULLET_KILL_BY_ALIEN,
+                       FULL_SCREEN_MODE)
+
 from settings import Settings
 from ship import Ship
 
@@ -17,11 +20,15 @@ class AlienInvasion():
         pygame.init()
 
         self.settings = Settings()
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        self.settings.screen_size = (
-            self.screen.get_rect().width,
-            self.screen.get_rect().height
-        )
+
+        if FULL_SCREEN_MODE:
+            self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+            self.settings.screen_size = (
+                self.screen.get_rect().width,
+                self.screen.get_rect().height
+            )
+        else:
+            self.screen = pygame.display.set_mode(self.settings.screen_size)
 
         pygame.display.set_caption(self.settings.window_title)
         self.ship = Ship(self)
@@ -86,13 +93,21 @@ class AlienInvasion():
             self.bullets.add(new_bullet)
 
     def _update_and_delete_bullet(self):
-        """Обновляет позиции снярядов и удаляет вышедшие за пределы экрана."""
+        """Обновляет позиции снярядов и удаляет вышедшие за пределы экрана
+        и попавшие в пришельцев."""
 
         self.bullets.update()
 
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+
+        bullets_and_aliens_collisions = pygame.sprite.groupcollide(
+            self.bullets,
+            self.aliens,
+            BULLET_KILL_BY_ALIEN,
+            ALIEN_KILL_BY_BULLET
+        )
 
     def _create_fleet(self):
         """Создает флот пришельцев."""
@@ -151,7 +166,7 @@ class AlienInvasion():
                 break
 
     def _change_fleet_direction(self):
-        """Опускает весь флот и меняет направление движения."""
+        """Опускает весь флот и меняет направление его движения."""
 
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_down_speed
