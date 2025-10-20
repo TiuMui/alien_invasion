@@ -34,16 +34,21 @@ class AlienInvasion():
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
-        self._create_fleet()
 
     def run_game(self):
         """Запуск основного цикла игры."""
 
         while True:
+            if not self.aliens:
+                self.bullets.empty()
+                self._create_fleet()
+
             self._tracking_events()
 
             self.ship.update()
             self._update_and_delete_bullet()
+
+            self._check_bullets_and_aliens_collision()
 
             self._update_aliens_in_fleet()
 
@@ -93,8 +98,7 @@ class AlienInvasion():
             self.bullets.add(new_bullet)
 
     def _update_and_delete_bullet(self):
-        """Обновляет позиции снярядов и удаляет вышедшие за пределы экрана
-        и попавшие в пришельцев."""
+        """Обновляет позиции снярядов и удаляет вышедшие за пределы экрана."""
 
         self.bullets.update()
 
@@ -102,7 +106,10 @@ class AlienInvasion():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
-        bullets_and_aliens_collisions = pygame.sprite.groupcollide(
+    def _check_bullets_and_aliens_collision(self):
+        """Обрабатывает столкновения снарядов и пришельцев."""
+
+        pygame.sprite.groupcollide(
             self.bullets,
             self.aliens,
             BULLET_KILL_BY_ALIEN,
