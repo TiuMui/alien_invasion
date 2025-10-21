@@ -1,12 +1,13 @@
 import sys
+from time import sleep
 
 import pygame
 
 from alian import Alian
 from bullet import Bullet
 from constants import (ALIEN_KILL_BY_BULLET, BULLET_KILL_BY_ALIEN,
-                       FULL_SCREEN_MODE)
-
+                       FULL_SCREEN_MODE, GAME_PAUSE)
+from game_statistics import GameStatistics
 from settings import Settings
 from ship import Ship
 
@@ -31,6 +32,7 @@ class AlienInvasion():
             self.screen = pygame.display.set_mode(self.settings.screen_size)
 
         pygame.display.set_caption(self.settings.window_title)
+        self.statistics = GameStatistics(self)
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
@@ -41,6 +43,7 @@ class AlienInvasion():
         while True:
             if not self.aliens:
                 self.bullets.empty()
+                sleep(GAME_PAUSE)
                 self._create_fleet()
 
             self._tracking_events()
@@ -107,7 +110,7 @@ class AlienInvasion():
                 self.bullets.remove(bullet)
 
     def _check_bullets_and_aliens_collision(self):
-        """Обрабатывает столкновения снарядов и пришельцев."""
+        """Фиксирует и обрабатывает столкновения снарядов и пришельцев."""
 
         pygame.sprite.groupcollide(
             self.bullets,
@@ -115,6 +118,20 @@ class AlienInvasion():
             BULLET_KILL_BY_ALIEN,
             ALIEN_KILL_BY_BULLET
         )
+
+    def _ship_and_alien_collision(self):
+        """Обрабатывает столкновение корабля с пришельцем."""
+
+        self.statistics.ships_left -= 1
+
+        self.aliens.empty()
+        self.bullets.empty()
+
+        self._create_fleet()
+
+        self.ship.move_to_the_center()
+
+        sleep(GAME_PAUSE)
 
     def _create_fleet(self):
         """Создает флот пришельцев."""
@@ -159,10 +176,14 @@ class AlienInvasion():
         self.aliens.add(alien)
 
     def _update_aliens_in_fleet(self):
-        """Обновляет позиции всех пришельцев во флоте."""
+        """Обновляет позиции всех пришельцев во флоте и фиксирует столкновение
+        любого пришельца с кораблем."""
 
         self._check_fleet_edges()
         self.aliens.update()
+
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_and_alien_collision()
 
     def _check_fleet_edges(self):
         """Реагирует на достижение любым пришельцем края экрана."""

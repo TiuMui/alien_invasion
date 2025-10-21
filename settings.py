@@ -1,7 +1,7 @@
 from constants import (ALIEN_SPEED, BG_COLOR, BULLETS_ALLOWED, BULLET_COLOR,
                        BULLET_HIGHT, BULLET_SPEED, FLEET_DOWN_SPEED,
-                       SCREEN_HEIGHT, BULLET_WIDTH, SHIP_SPEED, SCREEN_WIDTH,
-                       WINDOW_TITLE)
+                       SCREEN_HEIGHT, BULLET_WIDTH, SHIP_LIMIT, SHIP_SPEED,
+                       SCREEN_WIDTH, WINDOW_TITLE)
 
 
 class Settings():
@@ -20,6 +20,7 @@ class Settings():
         self.window_title = window_title
 
         self.ship_speed = SHIP_SPEED
+        self.ship_limit = SHIP_LIMIT
 
         self.bullet_speed = BULLET_SPEED
         self.bullet_width = BULLET_WIDTH
