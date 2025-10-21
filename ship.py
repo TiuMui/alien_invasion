@@ -10,7 +10,7 @@ class Ship():
         self.settings = ai.settings
         self.screen = ai.screen
         self.screen_rect = ai.screen_rect
-        self.image = pygame.image.load('images/ship.bmp')
+        self.image = pygame.image.load('images/ship.bmp').convert()
         self.rect = self.image.get_rect()
         self.move_to_the_center()
         self.moving_right = False

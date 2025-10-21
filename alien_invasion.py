@@ -23,13 +23,20 @@ class AlienInvasion():
         self.settings = Settings()
 
         if FULL_SCREEN_MODE:
-            self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+            self.screen = pygame.display.set_mode(
+                (0, 0),
+                pygame.FULLSCREEN | pygame.DOUBLEBUF
+            )
             self.settings.screen_size = (
                 self.screen.get_rect().width,
                 self.screen.get_rect().height
             )
         else:
-            self.screen = pygame.display.set_mode(self.settings.screen_size)
+            self.screen = pygame.display.set_mode(
+                self.settings.screen_size,
+                pygame.DOUBLEBUF
+            )
+
         self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption(self.settings.window_title)
         self.statistics = GameStatistics(self)
