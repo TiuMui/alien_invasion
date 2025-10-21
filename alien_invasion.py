@@ -30,7 +30,7 @@ class AlienInvasion():
             )
         else:
             self.screen = pygame.display.set_mode(self.settings.screen_size)
-
+        self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption(self.settings.window_title)
         self.statistics = GameStatistics(self)
         self.ship = Ship(self)
@@ -176,8 +176,8 @@ class AlienInvasion():
         self.aliens.add(alien)
 
     def _update_aliens_in_fleet(self):
-        """Обновляет позиции всех пришельцев во флоте и фиксирует столкновение
-        любого пришельца с кораблем."""
+        """Обновляет позиции всех пришельцев во флоте, фиксирует столкновение
+        любого пришельца с кораблем или нижним краем."""
 
         self._check_fleet_edges()
         self.aliens.update()
@@ -185,12 +185,22 @@ class AlienInvasion():
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_and_alien_collision()
 
+        self._check_fleet_bottom()
+
     def _check_fleet_edges(self):
-        """Реагирует на достижение любым пришельцем края экрана."""
+        """Фиксирует достижение любым пришельцем края экрана."""
 
         for alien in self.aliens.sprites():
-            if alien.check_edges():
+            if alien.rect.left <= 0 or alien.rect.right >= self.screen_rect.right:
                 self._change_fleet_direction()
+                break
+
+    def _check_fleet_bottom(self):
+        """Фиксирует достижение любым пришельцем нижнего края."""
+
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= self.screen_rect.bottom:
+                self._ship_and_alien_collision()
                 break
 
     def _change_fleet_direction(self):
