@@ -5,7 +5,7 @@ import pygame
 
 from alian import Alian
 from bullet import Bullet
-from constants import (ALIEN_KILL_BY_BULLET, BULLET_KILL_BY_ALIEN,
+from constants import (ALIEN_KILL_BY_BULLET, BULLET_KILL_BY_ALIEN, FPS,
                        FULL_SCREEN_MODE, GAME_PAUSE)
 from game_statistics import GameStatistics
 from settings import Settings
@@ -40,6 +40,7 @@ class AlienInvasion():
     def run_game(self):
         """Запуск основного цикла игры."""
 
+        clock = pygame.time.Clock()
         while True:
             if not self.aliens:
                 self.bullets.empty()
@@ -56,6 +57,8 @@ class AlienInvasion():
             self._update_aliens_in_fleet()
 
             self._update_screen()
+
+            clock.tick(FPS)
 
     def _tracking_events(self):
         """Отслеживает события: нажатия клавишь, мышь."""
@@ -191,7 +194,8 @@ class AlienInvasion():
         """Фиксирует достижение любым пришельцем края экрана."""
 
         for alien in self.aliens.sprites():
-            if alien.rect.left <= 0 or alien.rect.right >= self.screen_rect.right:
+            if (alien.rect.left <= 0 or
+               alien.rect.right >= self.screen_rect.right):
                 self._change_fleet_direction()
                 break
 
