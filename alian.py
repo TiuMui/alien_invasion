@@ -11,7 +11,7 @@ class Alian(Sprite):
 
         super().__init__()
         self.settings = ai.settings
-        self.image = pygame.image.load('images/alien.bmp').convert()
+        self.image = pygame.image.load('images/alien.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height

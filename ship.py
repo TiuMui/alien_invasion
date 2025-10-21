@@ -10,7 +10,7 @@ class Ship():
         self.settings = ai.settings
         self.screen = ai.screen
         self.screen_rect = ai.screen_rect
-        self.image = pygame.image.load('images/ship.bmp').convert()
+        self.image = pygame.image.load('images/ship.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.move_to_the_center()
         self.moving_right = False
@@ -34,4 +34,4 @@ class Ship():
         """Перемещает корабль в центр нижнего края."""
 
         self.rect.midbottom = self.screen_rect.midbottom
-        self.x = float(self.rect.x) # Дробная координата корабля по x.
+        self.x = float(self.rect.x)  # Дробная координата корабля по x.

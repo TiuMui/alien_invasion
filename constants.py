@@ -2,7 +2,7 @@ FULL_SCREEN_MODE = False
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 900
 WINDOW_TITLE = 'Инопланетное вторжение'
-BG_COLOR = (230, 230, 230)
+BG_COLOR = (5, 5, 5)  # (230, 230, 230)
 GAME_PAUSE = 1
 FPS = 50
 
