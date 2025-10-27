@@ -43,25 +43,22 @@ class AlienInvasion():
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+        self._create_fleet()
 
     def run_game(self):
         """Запуск основного цикла игры."""
 
         clock = pygame.time.Clock()
         while True:
-            if not self.aliens:
-                self.bullets.empty()
-                sleep(GAME_PAUSE)
-                self._create_fleet()
-
             self._tracking_events()
 
-            self.ship.update()
-            self._update_and_delete_bullet()
+            if self.statistics.game_active:
+                self.ship.update()
+                self._update_and_delete_bullet()
 
-            self._check_bullets_and_aliens_collision()
+                self._check_bullets_and_aliens_collision()
 
-            self._update_aliens_in_fleet()
+                self._update_aliens_in_fleet()
 
             self._update_screen()
 
@@ -129,17 +126,25 @@ class AlienInvasion():
             ALIEN_KILL_BY_BULLET
         )
 
+        if not self.aliens:
+            self.bullets.empty()
+            sleep(GAME_PAUSE)
+            self._create_fleet()
+
     def _ship_and_alien_collision(self):
         """Обрабатывает столкновение корабля с пришельцем."""
 
         self.statistics.ships_left -= 1
 
+        if self.statistics.ships_left <= 0:
+            self.statistics.game_active = False
+
         self.aliens.empty()
         self.bullets.empty()
 
-        self._create_fleet()
-
         self.ship.move_to_the_center()
+
+        self._create_fleet()
 
         sleep(GAME_PAUSE)
 
