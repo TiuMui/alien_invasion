@@ -5,6 +5,7 @@ import pygame
 
 from alian import Alian
 from bullet import Bullet
+from button import Button
 from constants import (ALIEN_KILL_BY_BULLET, BULLET_KILL_BY_ALIEN, FPS,
                        FULL_SCREEN_MODE, GAME_PAUSE)
 from game_statistics import GameStatistics
@@ -43,7 +44,8 @@ class AlienInvasion():
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
-        self._create_fleet()
+
+        self.play_button = Button(self, 'Play')
 
     def run_game(self):
         """Запуск основного цикла игры."""
@@ -79,6 +81,9 @@ class AlienInvasion():
             elif event.type == pygame.KEYUP:
                 self._tracking_keyup(event)
 
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                self._tracking_play_button(event)
+
     def _tracking_keydown(self, event):
         """Реакция на нажатие клавиш."""
 
@@ -100,10 +105,30 @@ class AlienInvasion():
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
 
+    def _tracking_play_button(self, event):
+        """Реакция на нажатие кнопки 'Play' мышью - запускает
+        новую игру."""
+
+        mouse_position = pygame.mouse.get_pos()
+        button_clicked = self.play_button.rect.collidepoint(mouse_position)
+
+        if button_clicked and not self.statistics.game_active:
+            self.statistics.reset_statistics()
+            self.statistics.game_active = True
+            pygame.mouse.set_visible(False)
+
+            self._aliens_and_bullets_empty()
+            self.ship.move_to_the_center()
+
+            self._create_fleet()
+
     def _fire_bullet(self):
         """Создает новый снаряд и добавляет его в группу self.bullets."""
 
-        if len(self.bullets) < self.settings.bullets_allowed:
+        if (
+            len(self.bullets) < self.settings.bullets_allowed and
+            self.statistics.game_active
+        ):
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
 
@@ -135,18 +160,22 @@ class AlienInvasion():
         """Обрабатывает столкновение корабля с пришельцем."""
 
         self.statistics.ships_left -= 1
+        self._aliens_and_bullets_empty()
+        self.ship.move_to_the_center()
+        sleep(GAME_PAUSE)
 
         if self.statistics.ships_left <= 0:
             self.statistics.game_active = False
+            pygame.mouse.set_visible(True)
+
+        else:
+            self._create_fleet()
+
+    def _aliens_and_bullets_empty(self):
+        """Удаляет всех пришельцев и снаряды."""
 
         self.aliens.empty()
         self.bullets.empty()
-
-        self.ship.move_to_the_center()
-
-        self._create_fleet()
-
-        sleep(GAME_PAUSE)
 
     def _create_fleet(self):
         """Создает флот пришельцев."""
@@ -230,10 +259,16 @@ class AlienInvasion():
         """Обновляет изображение на экране и отображает его."""
 
         self.screen.fill(self.settings.bg_color)
+
         self.ship.blitme()
+
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+
         self.aliens.draw(self.screen)
+
+        if not self.statistics.game_active:
+            self.play_button.draw_button()
         pygame.display.flip()
 
 
