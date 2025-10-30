@@ -117,9 +117,6 @@ class AlienInvasion():
             self.statistics.game_active = True
             pygame.mouse.set_visible(False)
 
-            self._aliens_and_bullets_empty()
-            self.ship.move_to_the_center()
-
             self._create_fleet()
 
     def _fire_bullet(self):
@@ -160,7 +157,8 @@ class AlienInvasion():
         """Обрабатывает столкновение корабля с пришельцем."""
 
         self.statistics.ships_left -= 1
-        self._aliens_and_bullets_empty()
+        self.aliens.empty()
+        self.bullets.empty()
         self.ship.move_to_the_center()
         sleep(GAME_PAUSE)
 
@@ -170,12 +168,6 @@ class AlienInvasion():
 
         else:
             self._create_fleet()
-
-    def _aliens_and_bullets_empty(self):
-        """Удаляет всех пришельцев и снаряды."""
-
-        self.aliens.empty()
-        self.bullets.empty()
 
     def _create_fleet(self):
         """Создает флот пришельцев."""
