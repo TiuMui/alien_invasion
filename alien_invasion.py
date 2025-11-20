@@ -150,6 +150,7 @@ class AlienInvasion():
 
         if not self.aliens:
             self.bullets.empty()
+            self._update_screen()
             sleep(GAME_PAUSE)
             self._create_fleet()
 
