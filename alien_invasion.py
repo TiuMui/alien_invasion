@@ -3,7 +3,7 @@ from time import sleep
 
 import pygame
 
-from alian import Alian
+from alien import Alien
 from bullet import Bullet
 from button import Button
 from constants import (ALIEN_KILL_BY_BULLET, BULLET_KILL_BY_ALIEN, FPS,
@@ -176,16 +176,16 @@ class AlienInvasion():
         number_aliens_in_row, number_rows = self._calculate_fleet()
 
         for row_number in range(number_rows):
-            for alian_number in range(number_aliens_in_row):
-                self._create_alien(alian_number, row_number)
+            for alien_number in range(number_aliens_in_row):
+                self._create_alien(alien_number, row_number)
 
     def _calculate_fleet(self):
         """Рассчитывает количество пришельцев в одном ряду
         и количество рядов.
         """
 
-        alien_for_calculate = Alian(self)
-        alien_width, alian_height = alien_for_calculate.rect.size
+        alien_for_calculate = Alien(self)
+        alien_width, alien_height = alien_for_calculate.rect.size
 
         ship_height = self.ship.rect.height
 
@@ -193,21 +193,21 @@ class AlienInvasion():
         number_aliens_in_row = available_space_x // (2 * alien_width)
 
         available_space_y = (self.settings.screen_size[1] -
-                             (3 * alian_height) - ship_height)
-        number_rows = available_space_y // (2 * alian_height)
+                             (3 * alien_height) - ship_height)
+        number_rows = available_space_y // (2 * alien_height)
 
         return number_aliens_in_row, number_rows
 
-    def _create_alien(self, alian_number, row_number):
+    def _create_alien(self, alien_number, row_number):
         """Создает пришельца и размещает его в нужном ряду."""
 
-        alien = Alian(self)
-        alien_width, alian_height = alien.rect.size
+        alien = Alien(self)
+        alien_width,alien_height = alien.rect.size
 
-        alien.x = alien_width + 2 * alien_width * alian_number
+        alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
 
-        alien.y = alian_height + 2 * alian_height * row_number
+        alien.y = alien_height + 2 * alien_height * row_number
         alien.rect.y = alien.y
 
         self.aliens.add(alien)
