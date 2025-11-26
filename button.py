@@ -1,4 +1,4 @@
-import pygame.font
+import pygame
 
 from constants import (BUTTON_COLOR, BUTTON_HEIGHT, BUTTON_WIDTH,
                        BUTTON_TEXT_COLOR, BUTTON_TEXT_SIZE)

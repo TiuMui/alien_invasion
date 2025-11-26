@@ -82,7 +82,7 @@ class AlienInvasion():
                 self._tracking_keyup(event)
 
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                self._tracking_play_button(event)
+                self._tracking_play_button()
 
     def _tracking_keydown(self, event):
         """Реакция на нажатие клавиш."""
@@ -105,7 +105,7 @@ class AlienInvasion():
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
 
-    def _tracking_play_button(self, event):
+    def _tracking_play_button(self):
         """Реакция на нажатие кнопки 'Play' мышью - запускает
         новую игру."""
 
@@ -113,6 +113,7 @@ class AlienInvasion():
         button_clicked = self.play_button.rect.collidepoint(mouse_position)
 
         if button_clicked and not self.statistics.game_active:
+            self.settings.init_dynamic_settings()
             self.statistics.reset_statistics()
             self.statistics.game_active = True
             pygame.mouse.set_visible(False)
@@ -150,6 +151,7 @@ class AlienInvasion():
 
         if not self.aliens:
             self.bullets.empty()
+            self.settings.increas_speed_game()
             self._update_screen()
             sleep(GAME_PAUSE)
             self._create_fleet()
@@ -202,7 +204,7 @@ class AlienInvasion():
         """Создает пришельца и размещает его в нужном ряду."""
 
         alien = Alien(self)
-        alien_width,alien_height = alien.rect.size
+        alien_width, alien_height = alien.rect.size
 
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
@@ -246,7 +248,7 @@ class AlienInvasion():
 
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_down_speed
-        self.settings.alien_speed *= -1
+        self.settings.fleet_direction *= -1
 
     def _update_screen(self):
         """Обновляет изображение на экране и отображает его."""
