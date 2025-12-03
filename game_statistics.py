@@ -1,3 +1,6 @@
+from constants import START_SCORE
+
+
 class GameStatistics():
     """Класс для отслеживания статистики игры."""
 
@@ -10,3 +13,4 @@ class GameStatistics():
         """Инициализирует статистику, изменяющуюся в ходе игры."""
 
         self.ships_left = self.settings.ship_limit
+        self.score = START_SCORE

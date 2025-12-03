@@ -1,5 +1,5 @@
-from constants import (ALIEN_SPEED, BG_COLOR, BULLETS_ALLOWED, BULLET_COLOR,
-                       BULLET_HIGHT, BULLET_SPEED, BULLET_WIDTH,
+from constants import (ALIEN_POINTS, ALIEN_SPEED, BG_COLOR, BULLETS_ALLOWED,
+                       BULLET_COLOR, BULLET_HIGHT, BULLET_SPEED, BULLET_WIDTH,
                        FLEET_DIRECTION, FLEET_DOWN_SPEED, SCREEN_HEIGHT,
                        SCREEN_WIDTH, SHIP_LIMIT, SHIP_SPEED, SPEEDUP_GAME,
                        WINDOW_TITLE)
@@ -41,6 +41,7 @@ class Settings():
         self.ship_speed = SHIP_SPEED
         self.alien_speed = ALIEN_SPEED
         self.fleet_direction = FLEET_DIRECTION
+        self.alien_points = ALIEN_POINTS
 
     def increas_speed_game(self):
         """Увеличивает скорость игры.

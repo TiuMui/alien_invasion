@@ -9,6 +9,7 @@ from button import Button
 from constants import (ALIEN_KILL_BY_BULLET, BULLET_KILL_BY_ALIEN, FPS,
                        FULL_SCREEN_MODE, GAME_PAUSE)
 from game_statistics import GameStatistics
+from scoreboard import Scoreboard
 from settings import Settings
 from ship import Ship
 
@@ -41,6 +42,7 @@ class AlienInvasion():
         self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption(self.settings.window_title)
         self.statistics = GameStatistics(self)
+        self.scoreboard = Scoreboard(self)
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
@@ -116,6 +118,7 @@ class AlienInvasion():
             self.settings.init_dynamic_settings()
             self.statistics.reset_statistics()
             self.statistics.game_active = True
+            self.scoreboard.prep_score()
             pygame.mouse.set_visible(False)
 
             self._create_fleet()
@@ -142,12 +145,16 @@ class AlienInvasion():
     def _check_bullets_and_aliens_collision(self):
         """Фиксирует и обрабатывает столкновения снарядов и пришельцев."""
 
-        pygame.sprite.groupcollide(
+        collisions = pygame.sprite.groupcollide(
             self.bullets,
             self.aliens,
             BULLET_KILL_BY_ALIEN,
             ALIEN_KILL_BY_BULLET
         )
+
+        if collisions:
+            self.statistics.score += self.settings.alien_points
+            self.scoreboard.prep_score()
 
         if not self.aliens:
             self.bullets.empty()
@@ -261,6 +268,8 @@ class AlienInvasion():
             bullet.draw_bullet()
 
         self.aliens.draw(self.screen)
+
+        self.scoreboard.blitme()
 
         if not self.statistics.game_active:
             self.play_button.draw_button()
