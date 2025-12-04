@@ -19,11 +19,12 @@ class Scoreboard():
     def prep_score(self):
         """Преобразует текущий счет в графическое изображение."""
 
+        rounded_score = round(self.statistics.score, -1)
+        score = f'{rounded_score:,}'.replace(',', ' ')
         self.score_image = self.font.render(
-            str(self.statistics.score),
+            score,
             True,
-            self.text_color,
-            # self.settings.bg_color
+            self.text_color
         )
         self.score_rect = self.score_image.get_rect()
         self.score_rect.right = self.screen_rect.right - 20

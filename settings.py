@@ -1,8 +1,8 @@
 from constants import (ALIEN_POINTS, ALIEN_SPEED, BG_COLOR, BULLETS_ALLOWED,
                        BULLET_COLOR, BULLET_HIGHT, BULLET_SPEED, BULLET_WIDTH,
-                       FLEET_DIRECTION, FLEET_DOWN_SPEED, SCREEN_HEIGHT,
-                       SCREEN_WIDTH, SHIP_LIMIT, SHIP_SPEED, SPEEDUP_GAME,
-                       WINDOW_TITLE)
+                       FLEET_DIRECTION, FLEET_DOWN_SPEED, SCORE_SCALE,
+                       SCREEN_HEIGHT, SCREEN_WIDTH, SHIP_LIMIT, SHIP_SPEED,
+                       SPEEDUP_GAME, WINDOW_TITLE)
 
 
 class Settings():
@@ -51,3 +51,4 @@ class Settings():
 
         self.ship_speed *= SPEEDUP_GAME
         self.alien_speed *= SPEEDUP_GAME
+        self.alien_points = int(self.alien_points * SCORE_SCALE)
