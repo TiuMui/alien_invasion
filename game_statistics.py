@@ -6,8 +6,10 @@ class GameStatistics():
 
     def __init__(self, ai):
         self.settings = ai.settings
-        self.reset_statistics()
         self.game_active = False
+        self.record_score = START_SCORE
+
+        self.reset_statistics()
 
     def reset_statistics(self):
         """Инициализирует статистику, изменяющуюся в ходе игры."""

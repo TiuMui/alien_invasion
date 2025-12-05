@@ -158,6 +158,7 @@ class AlienInvasion():
                     self.settings.alien_points * len(aliens)
                 )
             self.scoreboard.prep_score()
+            self.scoreboard.check_and_prep_record_score()
 
         if not self.aliens:
             self.bullets.empty()

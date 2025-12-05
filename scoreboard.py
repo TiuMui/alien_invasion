@@ -15,22 +15,52 @@ class Scoreboard():
         self.font = font.SysFont(None, SCORE_TEXT_SIZE)
 
         self.prep_score()
+        self._prep_record_score()
 
     def prep_score(self):
-        """Преобразует текущий счет в графическое изображение."""
+        """Размещает текущий счет в нужном месте на экране."""
 
-        rounded_score = round(self.statistics.score, -1)
-        score = f'{rounded_score:,}'.replace(',', ' ')
-        self.score_image = self.font.render(
-            score,
-            True,
-            self.text_color
-        )
+        self.score_image = self._get_image_from_number(self.statistics.score)
+
         self.score_rect = self.score_image.get_rect()
         self.score_rect.right = self.screen_rect.right - 20
         self.score_rect.top = 20
 
+    def check_and_prep_record_score(self):
+        """Проверяет появление нового рекорда."""
+
+        if self.statistics.score > self.statistics.record_score:
+            self.statistics.record_score = self.statistics.score
+            self._prep_record_score()
+
+    def _prep_record_score(self):
+        """Размещает рекордный счет в нужном месте на экране."""
+
+        self.record_score_image = self._get_image_from_number(
+            self.statistics.record_score
+        )
+
+        self.record_score_rect = self.record_score_image.get_rect()
+        self.record_score_rect.centerx = self.screen_rect.centerx
+        self.record_score_rect.top = self.score_rect.top
+
+    def _get_image_from_number(self, number):
+        """Преобразует переданное число в графическое изображение."""
+
+        if isinstance(number, (int, float)):
+            rounded_number = round(number, -1)
+            rounded_number_str = f'{rounded_number:,}'.replace(',', ' ')
+            result = self.font.render(
+                rounded_number_str,
+                True,
+                self.text_color
+            )
+            return result
+        else:
+            raise ValueError('Переданное число должно быть "int" или "float".')
+
     def blitme(self):
-        """Рисует счет в нужной позиции."""
+        """Рисует счет в нужной позиции на экране."""
 
         self.screen.blit(self.score_image, self.score_rect)
+        self.screen.blit(self.record_score_image, self.record_score_rect)
