@@ -1,4 +1,4 @@
-from constants import START_SCORE
+from constants import START_LEVEL, START_SCORE
 
 
 class GameStatistics():
@@ -16,3 +16,4 @@ class GameStatistics():
 
         self.ships_left = self.settings.ship_limit
         self.score = START_SCORE
+        self.level = START_LEVEL

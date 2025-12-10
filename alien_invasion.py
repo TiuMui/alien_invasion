@@ -119,6 +119,7 @@ class AlienInvasion():
             self.statistics.reset_statistics()
             self.statistics.game_active = True
             self.scoreboard.prep_score()
+            self.scoreboard.prep_level()
             pygame.mouse.set_visible(False)
 
             self._create_fleet()
@@ -163,6 +164,8 @@ class AlienInvasion():
         if not self.aliens:
             self.bullets.empty()
             self.settings.increas_speed_game()
+            self.statistics.level += 1
+            self.scoreboard.prep_level()
             self._update_screen()
             sleep(GAME_PAUSE)
             self._create_fleet()
