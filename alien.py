@@ -1,9 +1,7 @@
-import pygame
-
-from pygame.sprite import Sprite
+from pygame import image, sprite
 
 
-class Alien(Sprite):
+class Alien(sprite.Sprite):
     """Класс одного пришельца."""
 
     def __init__(self, ai):
@@ -11,7 +9,7 @@ class Alien(Sprite):
 
         super().__init__()
         self.settings = ai.settings
-        self.image = pygame.image.load('images/alien.png').convert_alpha()
+        self.image = image.load('images/alien.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height

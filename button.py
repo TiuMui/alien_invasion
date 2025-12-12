@@ -1,4 +1,4 @@
-import pygame
+import pygame as pg
 
 from constants import (BUTTON_COLOR, BUTTON_HEIGHT, BUTTON_WIDTH,
                        BUTTON_TEXT_COLOR, BUTTON_TEXT_SIZE)
@@ -14,8 +14,8 @@ class Button():
         self.height = BUTTON_HEIGHT
         self.color = BUTTON_COLOR
         self.text_color = BUTTON_TEXT_COLOR
-        self.font = pygame.font.SysFont(None, BUTTON_TEXT_SIZE)
-        self.rect = pygame.Rect(0, 0, self.width, self.height)
+        self.font = pg.font.SysFont(None, BUTTON_TEXT_SIZE)
+        self.rect = pg.Rect(0, 0, self.width, self.height)
         self.rect.center = self.screen_rect.center
         self._prep_msg(text)
 

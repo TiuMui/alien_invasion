@@ -1,9 +1,7 @@
-import pygame
-
-from pygame.sprite import Sprite
+import pygame as pg
 
 
-class Bullet(Sprite):
+class Bullet(pg.sprite.Sprite):
     """Класс для управления снарядами корабля."""
 
     def __init__(self, ai):
@@ -13,7 +11,7 @@ class Bullet(Sprite):
         self.screen = ai.screen
         self.settings = ai.settings
         self.color = self.settings.bullet_color
-        self.rect = pygame.Rect(
+        self.rect = pg.Rect(
             0,
             0,
             self.settings.bullet_width,
@@ -31,4 +29,4 @@ class Bullet(Sprite):
     def draw_bullet(self):
         """Выводит снаряд на экран."""
 
-        pygame.draw.rect(self.screen, self.color, self.rect)
+        pg.draw.rect(self.screen, self.color, self.rect)

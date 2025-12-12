@@ -75,7 +75,7 @@ class AlienInvasion():
         for event in current_iteration_event_list:
             if event.type == pygame.QUIT:
                 pygame.quit()  # Завершение работы Pygame.
-                sys.exit()  # Завершение работы программы.  
+                sys.exit()  # Завершение работы программы.
 
             elif event.type == pygame.KEYDOWN:
                 self._tracking_keydown(event)
@@ -108,8 +108,10 @@ class AlienInvasion():
             self.ship.moving_left = False
 
     def _tracking_play_button(self):
-        """Реакция на нажатие кнопки 'Play' мышью - запускает
-        новую игру."""
+        """Реакция на нажатие кнопки 'Play' мышью.
+
+        Запускает новую игру.
+        """
 
         mouse_position = pygame.mouse.get_pos()
         button_clicked = self.play_button.rect.collidepoint(mouse_position)
@@ -120,6 +122,7 @@ class AlienInvasion():
             self.statistics.game_active = True
             self.scoreboard.prep_score()
             self.scoreboard.prep_level()
+            self.scoreboard.prep_ships()
             pygame.mouse.set_visible(False)
 
             self._create_fleet()
@@ -162,18 +165,24 @@ class AlienInvasion():
             self.scoreboard.check_and_prep_record_score()
 
         if not self.aliens:
-            self.bullets.empty()
-            self.settings.increas_speed_game()
-            self.statistics.level += 1
-            self.scoreboard.prep_level()
-            self._update_screen()
-            sleep(GAME_PAUSE)
-            self._create_fleet()
+            self._start_new_level()
+
+    def _start_new_level(self):
+        """Запускает новый уровень игры."""
+
+        self.bullets.empty()
+        self.settings.increas_speed_game()
+        self.statistics.level += 1
+        self.scoreboard.prep_level()
+        self._update_screen()
+        sleep(GAME_PAUSE)
+        self._create_fleet()
 
     def _ship_and_alien_collision(self):
         """Обрабатывает столкновение корабля с пришельцем."""
 
         self.statistics.ships_left -= 1
+        self.scoreboard.prep_ships()
         self.aliens.empty()
         self.bullets.empty()
         self.ship.move_to_the_center()
@@ -182,7 +191,6 @@ class AlienInvasion():
         if self.statistics.ships_left <= 0:
             self.statistics.game_active = False
             pygame.mouse.set_visible(True)
-
         else:
             self._create_fleet()
 

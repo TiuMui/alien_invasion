@@ -1,16 +1,17 @@
-import pygame
+from pygame import image, sprite
 
 
-class Ship():
+class Ship(sprite.Sprite):
     """Класс для управления кораблем."""
 
     def __init__(self, ai):
         """инициализирует корабль и задает его начальную позицию."""
 
+        super().__init__()
         self.settings = ai.settings
         self.screen = ai.screen
         self.screen_rect = ai.screen_rect
-        self.image = pygame.image.load('images/ship.png').convert_alpha()
+        self.image = image.load('images/ship.png').convert_alpha()
         self.rect = self.image.get_rect()
         self.move_to_the_center()
         self.moving_right = False
