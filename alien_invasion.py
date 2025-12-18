@@ -74,8 +74,10 @@ class AlienInvasion():
         current_iteration_event_list = pygame.event.get()
         for event in current_iteration_event_list:
             if event.type == pygame.QUIT:
-                pygame.quit()  # Завершение работы Pygame.
-                sys.exit()  # Завершение работы программы.
+                with open('score/record_score.txt', 'w') as filerecord:
+                    filerecord.write(str(self.statistics.record_score))
+                pygame.quit()
+                exit()
 
             elif event.type == pygame.KEYDOWN:
                 self._tracking_keydown(event)

@@ -7,7 +7,15 @@ class GameStatistics():
     def __init__(self, ai):
         self.settings = ai.settings
         self.game_active = False
-        self.record_score = START_SCORE
+        try:
+            with open('score/record_score.txt') as filerecord:
+                self.record_score = int(filerecord.read())
+        except FileNotFoundError:
+            print('Файл с рекордом не существет. Создан новый файл.')
+            self.record_score = START_SCORE
+        except ValueError:
+            print('В файле с рекордом нет записи. Текущий рекорд 0.')
+            self.record_score = START_SCORE
 
         self.reset_statistics()
 

@@ -17,7 +17,7 @@ BULLET_COLOR = (200, 150, 100)
 BULLETS_ALLOWED = 3  # Допустимое количество снарядов на экране одновременно.
 BULLET_KILL_BY_ALIEN = True  # Уничтожение снаряда при попадании в пришельца.
 
-ALIEN_SPEED = 8.0
+ALIEN_SPEED = 3.0
 ALIEN_KILL_BY_BULLET = True  # Уничтожение пришельца при попадании снарядом.
 FLEET_DOWN_SPEED = 50
 FLEET_DIRECTION = 1
